@@ -20,3 +20,9 @@ uninstall
 poetry remove vhelpers
 poetry show --tree
 poetry show --tree | findstr ciscoconfparse
+
+
+venv
+-----
+
+C:\Users\inara\AppData\Local\pypoetry\Cache\virtualenvs
