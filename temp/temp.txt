@@ -1,0 +1,133 @@
+[tool.poetry]
+name = "config-checker2"
+version = "0.48.3"
+description = "Tool to check network device configurations."
+authors = ["Vladimirs Prusakovs <vprusakovs@evolution.com>"]
+readme = "README.rst"
+package-mode = false
+requires-poetry = "2.1.2"
+
+[tool.poetry.urls]
+homepage = "https://gitlab.evolution.com/noc/config-checker2"
+repository = "https://gitlab.evolution.com/noc/config-checker2"
+
+[tool.poetry.dependencies]
+python = "3.11.9"
+#
+PyYAML = "6.0.2"  # netmiko, TaskManager
+atlassian-python-api = "1.15.9"  # jira
+gitpython = "3.1.45"  # GitLab repository
+icalendar = "6.3.2"  # calendar
+jinja2 = "3.1.6"  # html
+psutil = "7.1.0"  # free_memory
+pydantic = "2.12.5"  # models
+pydantic-settings = "2.12.0"  # settings
+recurring-ical-events = "3.8.0"  # calendar
+#
+logger-color = "0.2.0"  # logging
+netports = "1.2.1"  # evodevice, evofwrepo
+nbforager = "1.2.0"  # evodevice
+vhelpers = "0.6.0"  # evodevice
+#
+emailnoc = {url = "https://rms.evolution.com/evo-pypi/noc/emailnoc/emailnoc-0.0.17.tar.gz"}
+evodevice = {url = "https://rms.evolution.com/evo-pypi/noc/evodevice/evodevice-0.17.3.tar.gz"}
+evofwrepo = {url = "https://rms.evolution.com/evo-pypi/noc/evofwrepo/evofwrepo-0.2.4.tar.gz"}
+nbapi = {url = "https://rms.evolutiongaming.com/evo-pypi/noc/nbapi/nbapi-2.4.2.tar.gz"}
+
+[tool.poetry.group.dev.dependencies]
+dictdiffer = "0.9.0"
+mypy = "1.18.2"
+pygments = "2.18.0"  # rst-lint
+pylint = "3.3.9"
+pytest = "8.4.2"
+pytest-cov = "7.0.0"
+pytest-mock = "3.15.1"
+requests-mock = "1.12.1"
+restructuredtext-lint = "1.4.0"
+ruff = "0.14.0"
+types-icalendar = "6.3.2.20251107"
+types-pyyaml = "6.0.12.20250915"
+types-requests = "2.32.4.20250913"
+types-tabulate = "0.9.0.20241207"
+typing-extensions = "4.15.0"
+
+[tool.poetry.extras]
+test = ["pytest"]
+
+#[tool.pytest.ini_options]
+#addopts = "-p no:warnings"
+
+[tool.pylint]
+max-line-length = 100
+disable = "fixme"
+
+[tool.pylint.message_control]
+max-args = 20
+max-attributes = 20
+max-branches = 15
+max-locals = 20
+max-nested-blocks = 7
+
+[tool.pylint."app.arguments"]
+disable = ["invalid-name"]
+
+[tool.pylint."tests.*"]
+disable = [
+    "assigning-non-slot",
+    "duplicate-code",
+    "no-member",
+    "protected-access",
+    "redefined-outer-name",
+    "too-few-public-methods",
+    "too-many-positional-arguments",
+    "too-many-public-methods",
+    "unsubscriptable-object",
+    "unused-argument",
+    "unused-import",
+    "use-dict-literal",
+]
+
+[tool.mypy]
+python_version = "3.11"
+
+[[tool.mypy.overrides]]
+module = [
+    "atlassian.*",
+    "dictdiffer.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".idea",
+    ".mypy_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".venv",
+    "_notes",
+    "dist",
+    "examples",
+    "sdist",
+    "temp",
+    "tmp",
+    "venv",
+]
+line-length = 100
+indent-width = 4
+target-version = "py311"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "F401",  # imported but unused
+    "F811",  # Redefinition of unused
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false  # arguments on separate lines
+line-ending = "auto"
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"  # docstring style
