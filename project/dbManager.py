@@ -35,17 +35,17 @@ class DbManager:
             ''')
             self.con.commit()
 
-    def __executemany(self, sql:str, data:tuple[tuple]) -> None:
+    def executemany(self, sql:str, data:tuple[tuple]) -> None:
         with self.con:
             self.con.executemany(sql, data)
             self.con.commit()
 
-    def __execute(self, sql:str, data:tuple):
+    def execute(self, sql:str, data:tuple):
         with self.con:
             self.con.execute(sql, data)
             self.con.commit()
 
-    def __select_data(self, sql:str, data=tuple()) -> list[tuple]:
+    def select_data(self, sql:str, data=tuple()) -> list[tuple]:
         with self.con:
             self.cur.execute(sql, data)
             return self.cur.fetchall()
@@ -107,7 +107,7 @@ class DbManager:
         """
 
         with self.con:
-            return bool(self.__select_data(query, (playerId,))[0][0])
+            return bool(self.select_data(query, (playerId,))[0][0])
 
     # WORD MANAGEMENT
     def checkAndAddWord(self, word:str, session:int) -> bool:
@@ -129,7 +129,7 @@ class DbManager:
         """
 
         with self.con:
-            existing = self.__select_data(queryCheck, (word,))
+            existing = self.select_data(queryCheck, (word,))
             if existing[0][0]:
                 return False
 
@@ -177,7 +177,7 @@ class DbManager:
         """
 
         with self.con:
-            return bool(self.__select_data(query, (hostId,))[0][0])
+            return bool(self.select_data(query, (hostId,))[0][0])
 
 
     def getSessionIdByName(self, sessionName : str) -> int:
@@ -187,11 +187,10 @@ class DbManager:
         """
 
         with self.con:
-            data = self.__select_data(query, (sessionName,))
+            data = self.select_data(query, (sessionName,))
             if len(data) > 0:
                 return data[0][0]
-            else:
-                return -1 # not found
+            return -1 # not found
 
 
 

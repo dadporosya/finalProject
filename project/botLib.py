@@ -110,6 +110,17 @@ class B: # bot
         self.bot.send_message(message.chat.id, "Successfully added")
 
 
+    def temp(self, a:int, b:int):
+        c=a+b
+        a_ = str(a)
+        _b = str(b)
+
+        return a+b
+
+    def temp2(self, a:str, b:str):
+        return self.temp(a, b) # type:ignore
+
+
 
 
 

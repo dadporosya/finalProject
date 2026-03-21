@@ -18,5 +18,31 @@ telebot = "0.0.5"
 
 [dependency-groups]
 dev = [
-    "pylint (==4.0.5)"
+    "pylint (==4.0.5)",
+    "ruff (>=0.15.7,<0.16.0)",
+    "mypy (==1.19.1)",
 ]
+
+
+[tool.pylint]
+disable = [
+    "invalid-name",
+]
+ignore = [
+    "temp",
+]
+
+
+[tool.mypy]
+python_version="3.13"
+exclude = "^temp/"
+#max-line-length = 100
+
+
+[tool.ruff]
+exclude = [
+    "temp"
+]
+line-length = 100
+indent-width = 4
+target-version = "py311"

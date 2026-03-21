@@ -22,8 +22,6 @@ def dict_to_toml(data: dict, path="") -> str:
     """
     Convert a Python dictionary to a TOML string.
     """
-    lines = []
-    sections = []
 
     def serialize_section(d, prefix=""):
         local_lines = []
@@ -60,13 +58,13 @@ def format_value(value):
     """
     if isinstance(value, str):
         return f'"{value}"'
-    elif isinstance(value, bool):
+    if isinstance(value, bool):
         return "true" if value else "false"
-    elif isinstance(value, list):
+    if isinstance(value, list):
         return "[" + ", ".join(format_value(v) for v in value) + "]"
-    elif isinstance(value, (int, float)):
+    if isinstance(value, (int, float)):
         return str(value)
-    elif value is None:
+    if value is None:
         return '""'
 
     raise TypeError(f"Unsupported type: {type(value)}")

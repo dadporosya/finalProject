@@ -1,10 +1,10 @@
-import botLib
-from config import *
-from dbManager import DbManager
+from project import botLib
+from project import config
+from project.dbManager import DbManager
 import telebot
 
-dbManager = DbManager(DBPATH)
-bot = botLib.B(TOKEN, dbManager)
+dbManager = DbManager(config.DBPATH)
+bot = botLib.B(config.TOKEN, dbManager)
 
 @bot.bot.message_handler(commands=["start"])
 def start(message):
