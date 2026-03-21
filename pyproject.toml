@@ -13,16 +13,10 @@ requires-poetry = "2.3.2"
 python = "3.13.12"
 #
 telebot = "0.0.5"
-#sqlalchemy = "2.0.48"
 
-#dependencies = [
-#    "telebot (>=0.0.5,<0.0.6)",
-#    "sqlalchemy (>=2.0.48,<3.0.0)"
-#]
 
-#[tool.poetry.group.dev.dependencies]
-#pytest = "9.0.2"
 
-#[build-system]
-#requires = ["poetry-core>=2.0.0,<3.0.0"]
-#build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "pylint (==4.0.5)"
+]
