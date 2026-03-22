@@ -2,16 +2,21 @@ import tomllib
 
 BASE_PATH = r"C:\Users\inara\OneDrive\Documents\ilja\PycharmProjects\kodland-tele-bots\finalProject\\"
 
+
 def toml_to_dict(toml_string: str) -> dict:
-    """
-    Convert TOML string to Python dictionary.
+    """Parse TOML content and return a dictionary.
+
+    :param toml_string: TOML-formatted text.
+    :return: A Python dictionary representation of the TOML content.
     """
     return tomllib.loads(toml_string)
 
 
 def toml_file_to_dict(file_path: str) -> dict:
-    """
-    Load TOML file into dictionary.
+    """Read a TOML file and return its contents as a dictionary.
+
+    :param file_path: Relative path to the TOML file, resolved against `BASE_PATH`.
+    :return: A dictionary representing the TOML file data.
     """
     new_path = BASE_PATH + file_path
     with open(new_path, "rb") as f:
@@ -19,8 +24,13 @@ def toml_file_to_dict(file_path: str) -> dict:
 
 
 def dict_to_toml(data: dict, path="") -> str:
-    """
-    Convert a Python dictionary to a TOML string.
+    """Serialize a Python dictionary to a TOML string.
+
+    Optionally writes the TOML output to `<path>.toml`.
+
+    :param data: Dictionary to serialize.
+    :param path: Optional file path (without `.toml`) to save output.
+    :return: Serialized TOML string.
     """
 
     def serialize_section(d, prefix=""):
@@ -53,8 +63,10 @@ def dict_to_toml(data: dict, path="") -> str:
 
 
 def format_value(value):
-    """
-    Format Python values into TOML-compatible values.
+    """Marshal basic Python values into TOML literal syntax.
+
+    :param value: Python value to format.
+    :return: TOML-safe literal string for the value.
     """
     if isinstance(value, str):
         return f'"{value}"'
@@ -69,6 +81,8 @@ def format_value(value):
 
     raise TypeError(f"Unsupported type: {type(value)}")
 
-newd =toml_file_to_dict(r"pyproject.toml")
+
+# Load and print pyproject.toml for debugging when module is run directly.
+newd = toml_file_to_dict(r"pyproject.toml")
 print(newd)
 print(dict_to_toml(newd))

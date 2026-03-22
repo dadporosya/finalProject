@@ -1,13 +1,25 @@
 import sqlite3 as sql3
 
+
 class DbManager:
+    """Database manager for players, sessions, and used words."""
+
     def __init__(self, path="db.db"):
+        """Initialize SQLite connection and ensure required tables exist.
+
+        :param path: Path to SQLite file (default 'db.db').
+        :return: None
+        """
         self.path = path
         self.con = sql3.connect(self.path, check_same_thread=False)
         self.cur = self.con.cursor()
         self.createTables()
 
     def createTables(self):
+        """Create sessions, players, and usedWords tables if missing.
+
+        :return: None
+        """
         with self.con:
             self.con.execute('''
                 CREATE TABLE IF NOT EXISTS sessions (
@@ -35,23 +47,48 @@ class DbManager:
             ''')
             self.con.commit()
 
-    def executemany(self, sql:str, data:tuple[tuple]) -> None:
+    def executemany(self, sql: str, data: tuple[tuple]) -> None:
+        """Execute many prepared statements with data tuples.
+
+        :param sql: SQL query with placeholders.
+        :param data: Tuples of parameter values.
+        :return: None
+        """
         with self.con:
             self.con.executemany(sql, data)
             self.con.commit()
 
-    def execute(self, sql:str, data:tuple):
+    def execute(self, sql: str, data: tuple):
+        """Execute a single SQL command with parameters.
+
+        :param sql: SQL query with placeholders.
+        :param data: Parameters to bind.
+        :return: None
+        """
         with self.con:
             self.con.execute(sql, data)
             self.con.commit()
 
-    def select_data(self, sql:str, data=tuple()) -> list[tuple]:
+    def select_data(self, sql: str, data=tuple()) -> list[tuple]:
+        """Execute a select query and return all results.
+
+        :param sql: SELECT query string.
+        :param data: Parameters for query.
+        :return: Rows as list of tuples.
+        """
         with self.con:
             self.cur.execute(sql, data)
             return self.cur.fetchall()
 
-    #USER MANAGEMENT
+    # USER MANAGEMENT
     def addPlayer(self, userId: int, userName: str, sessionId=-1) -> None:
+        """Insert a player record; optionally assign to a session.
+
+        :param userId: Player ID.
+        :param userName: Player username.
+        :param sessionId: Optional session ID (default -1).
+        :return: None
+        """
         query = """
             INSERT INTO players (playerId, name) VALUES (?, ?)
         """
@@ -63,6 +100,13 @@ class DbManager:
             self.addPlayerToSession(userId, sessionId)
 
     def updatePlayer(self, userId: int, userName: str, sessionId=-1) -> None:
+        """Update a player's name; optionally assign to a session.
+
+        :param userId: Player ID.
+        :param userName: New username.
+        :param sessionId: Optional session ID (default -1).
+        :return: None
+        """
         query = """
             UPDATE players
             SET name = ?
@@ -75,8 +119,13 @@ class DbManager:
         if sessionId != -1:
             self.addPlayerToSession(userId, sessionId)
 
+    def addPlayerToSession(self, userId: int, sessionId: int) -> None:
+        """Assign an existing player to a session.
 
-    def addPlayerToSession(self, userId:int, sessionId:int) -> None:
+        :param userId: Player ID.
+        :param sessionId: Target session ID.
+        :return: None
+        """
         query = """
                 UPDATE players
                 SET sessionId = ?
@@ -86,8 +135,12 @@ class DbManager:
             self.con.execute(query, (sessionId, userId))
             self.con.commit()
 
-
     def removePlayer(self, userId: int) -> None:
+        """Remove player record by ID.
+
+        :param userId: Player ID.
+        :return: None
+        """
         query = """
             DELETE FROM players
             WHERE playerId = ?
@@ -96,8 +149,12 @@ class DbManager:
             self.con.execute(query, (userId,))
             self.con.commit()
 
-
     def checkIfExistPlayer(self, playerId: int) -> bool:
+        """Return True if player exists, else False.
+
+        :param playerId: Player ID to check.
+        :return: Boolean existence flag.
+        """
         query = """
             SELECT EXISTS(
                 SELECT 1
@@ -110,13 +167,13 @@ class DbManager:
             return bool(self.select_data(query, (playerId,))[0][0])
 
     # WORD MANAGEMENT
-    def checkAndAddWord(self, word:str, session:int) -> bool:
-        """
-            Add word to db if it is not exist
-            False - such word exists. No action
-            True - word has been successfully added
-        """
+    def checkAndAddWord(self, word: str, session: int) -> bool:
+        """Add word to usedWords for a session if not already present.
 
+        :param word: Word to add.
+        :param session: Session ID.
+        :return: False if word was already used; True if added successfully.
+        """
         queryInsert = """
             INSERT INTO usedWords (word, sessionId) VALUES (?, ?)
         """
@@ -137,8 +194,13 @@ class DbManager:
             self.con.commit()
             return True
 
-    #SESSION MANAGEMENT
-    def deleteSession(self, sessionId:int) -> None:
+    # SESSION MANAGEMENT
+    def deleteSession(self, sessionId: int) -> None:
+        """Delete session and all related players/used words.
+
+        :param sessionId: Session ID to delete.
+        :return: None
+        """
         tableTitles = [
             "sessions", "players", "usedWords"
         ]
@@ -151,11 +213,16 @@ class DbManager:
 
         with self.con:
             for table in tableTitles:
-                self.con.execute(query.replace(placeholder, table))
+                self.con.execute(query.replace(placeholder, table), (sessionId,))
             self.con.commit()
 
+    def createSession(self, hostId: int, sessionName: str):
+        """Create a new session and assign host player to it.
 
-    def createSession(self, hostId:int, sessionName:str):
+        :param hostId: Host player ID.
+        :param sessionName: Session name.
+        :return: None
+        """
         queryAddSession = """
             INSERT INTO sessions
             (sessionId, name, currentTurnPlayerId, started) VALUES(?,?,?,?)
@@ -166,8 +233,12 @@ class DbManager:
             self.addPlayerToSession(hostId, hostId)
             self.con.commit()
 
-
     def checkIfSessionExists(self, hostId: int) -> bool:
+        """Check whether a session with given hostId exists.
+
+        :param hostId: Candidate session ID.
+        :return: Boolean existence flag.
+        """
         query = """
             SELECT EXISTS(
                 SELECT 1
@@ -179,10 +250,15 @@ class DbManager:
         with self.con:
             return bool(self.select_data(query, (hostId,))[0][0])
 
+    def getSessionIdByName(self, sessionName: str) -> int:
+        """Return sessionId by name or -1 if not found.
 
-    def getSessionIdByName(self, sessionName : str) -> int:
+        :param sessionName: Session name to look up.
+        :return: Session ID or -1.
+        """
         query = """
-            SELECT FROM sessions
+            SELECT sessionId
+            FROM sessions
             WHERE name = ?
         """
 
@@ -190,7 +266,7 @@ class DbManager:
             data = self.select_data(query, (sessionName,))
             if len(data) > 0:
                 return data[0][0]
-            return -1 # not found
+            return -1  # not found
 
 
 

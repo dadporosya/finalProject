@@ -5,22 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a298095a-fbd3-4350-9e2e-431d529ea17b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/instructions/python-only.instructions.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_notes/poetry.rst" beforeDir="false" afterPath="$PROJECT_DIR$/_notes/poetry.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/_helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/botLib.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/botLib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/db.db" beforeDir="false" afterPath="$PROJECT_DIR$/project/db.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/dbManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/dbManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp/temp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject" value="3AnjYs9xlu8PXFIgiTUePlFs6ht" />
+    </persistenceIdMap>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -46,26 +47,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python._helpers.executor": "Run",
-    "Python.blackboxcup.executor": "Run",
-    "Python.botLib.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.temp (1).executor": "Run",
-    "Python.temp.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "tempBranch",
-    "last_opened_file_path": "C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python._helpers.executor&quot;: &quot;Run&quot;,
+    &quot;Python.blackboxcup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.botLib.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tempBranch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\inara\OneDrive\Documents\ilja\PycharmProjects\kodland-tele-bots\FinalProject\temp" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.temp (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="_helpers" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FinalProject" />
       <option name="ENV_FILES" value="" />
@@ -178,9 +179,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.temp (1)" />
         <item itemvalue="Python.botLib" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python._helpers" />
         <item itemvalue="Python.blackboxcup" />
       </list>
@@ -226,5 +227,13 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
