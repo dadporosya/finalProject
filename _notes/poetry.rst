@@ -37,3 +37,6 @@ poetry show
 
 
 C:\Users\inara\AppData\Local\pypoetry\Cache\virtualenvs
+
+current:
+C:\Users\inara\AppData\Local\pypoetry\Cache\virtualenvs\finalproject-QHODVyBn-py3.13

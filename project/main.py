@@ -1,32 +1,80 @@
-import botLib
-from config import *
-from dbManager import DbManager
+from project import botLib
+from project import config
+from project.dbManager import DbManager
 import telebot
 
-dbManager = DbManager(DBPATH)
-bot = botLib.B(TOKEN, dbManager)
+dbManager = DbManager(config.DBPATH)
+bot = botLib.B(config.TOKEN, dbManager)
 
 @bot.bot.message_handler(commands=["start"])
 def start(message):
-    bot.start(message)
+    """Handle /start command from Telegram.
+
+    :param message: Telegram message object.
+    :return: None
+    """
+    bot.registration(message)
 
 
 @bot.bot.message_handler(commands=["register"])
 def registration(message):
+    """Handle /register command, delegating to bot registration flow.
+
+    :param message: Telegram message object.
+    :return: None
+    """
     bot.registration(message)
 
 
-@bot.bot.message_handler(commangs=["create"])
+@bot.bot.message_handler(commands=["create"])
 def createSession(message):
+    """Handle /create command to start session creation.
+
+    :param message: Telegram message object.
+    :return: None
+    """
     bot.createSession(message)
 
-@bot.bot.message_handler(commangs=["join"])
-def joinSession(message):
-    pass
 
+@bot.bot.message_handler(commands=["join"])
+def joinSession(message):
+    """Handle /join command to start join-session flow.
+
+    :param message: Telegram message object.
+    :return: None
+    """
+    bot.joinSession(message)
+
+@bot.bot.message_handler(commands=["startGame"])
+def startGame(message):
+    bot.startGame(message)
+
+@bot.bot.message_handler(commands=["endGame"])
+def endGame(message):
+    bot.endGame(message)
+
+@bot.bot.message_handler(commands=["games"])
+def showGamesList(message):
+    bot.showGamesList(message)
+
+@bot.bot.message_handler(commands=["showPlayers"])
+def showPlayers(message):
+    bot.showPlayers(message)
+
+@bot.bot.message_handler(commands=["resetDB"])
+def resetDB(message):
+    bot.clearDB(True)
 
 @bot.bot.callback_query_handler(func=lambda call: True)
 def callback(call):
+    """Handle callback queries from inline keyboard buttons.
+
+    :param call: Callback query object.
+    :return: None
+    """
     bot.callback(call)
+
+
+
 
 bot.bot.infinity_polling()
