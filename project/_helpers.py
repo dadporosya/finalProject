@@ -81,8 +81,17 @@ def format_value(value):
 
     raise TypeError(f"Unsupported type: {type(value)}")
 
+def unnestRecursion(l:list, t:tuple) -> list:
+    for e in t:
+        if type(e) in [tuple, list, set]:
+            l=unnestRecursion(l, e)
+        else:
+            l.append(str(e))
 
-# Load and print pyproject.toml for debugging when module is run directly.
-newd = toml_file_to_dict(r"pyproject.toml")
-print(newd)
-print(dict_to_toml(newd))
+    return l
+
+def unnest(t:tuple):
+    return unnestRecursion([], t)
+
+def joinNested(s:str, t:tuple) -> str:
+    return s.join(unnest(t))

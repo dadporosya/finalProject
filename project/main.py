@@ -6,7 +6,6 @@ import telebot
 dbManager = DbManager(config.DBPATH)
 bot = botLib.B(config.TOKEN, dbManager)
 
-
 @bot.bot.message_handler(commands=["start"])
 def start(message):
     """Handle /start command from Telegram.
@@ -14,7 +13,7 @@ def start(message):
     :param message: Telegram message object.
     :return: None
     """
-    bot.start(message)
+    bot.registration(message)
 
 
 @bot.bot.message_handler(commands=["register"])
@@ -44,8 +43,27 @@ def joinSession(message):
     :param message: Telegram message object.
     :return: None
     """
-    pass
+    bot.joinSession(message)
 
+@bot.bot.message_handler(commands=["startGame"])
+def startGame(message):
+    bot.startGame(message)
+
+@bot.bot.message_handler(commands=["endGame"])
+def endGame(message):
+    bot.endGame(message)
+
+@bot.bot.message_handler(commands=["games"])
+def showGamesList(message):
+    bot.showGamesList(message)
+
+@bot.bot.message_handler(commands=["showPlayers"])
+def showPlayers(message):
+    bot.showPlayers(message)
+
+@bot.bot.message_handler(commands=["resetDB"])
+def resetDB(message):
+    bot.clearDB(True)
 
 @bot.bot.callback_query_handler(func=lambda call: True)
 def callback(call):
@@ -55,6 +73,8 @@ def callback(call):
     :return: None
     """
     bot.callback(call)
+
+
 
 
 bot.bot.infinity_polling()

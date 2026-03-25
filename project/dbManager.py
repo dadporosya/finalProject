@@ -1,5 +1,5 @@
 import sqlite3 as sql3
-
+from project import _helpers as h
 
 class DbManager:
     """Database manager for players, sessions, and used words."""
@@ -22,12 +22,20 @@ class DbManager:
         """
         with self.con:
             self.con.execute('''
+                CREATE TABLE IF NOT EXISTS games (
+                    gameId INTEGER PRIMARY KEY,
+                    name TEXT
+                )
+            ''')
+            self.con.execute('''
                 CREATE TABLE IF NOT EXISTS sessions (
                     sessionId INTEGER PRIMARY KEY,
                     name TEXT,
                     currentTurnPlayerId INTEGER,
                     started BOOLEAN,
-                    FOREIGN KEY(currentTurnPlayerId) REFERENCES players(playerId)
+                    gameId INTEGER DEFAULT NULL,
+                    FOREIGN KEY(currentTurnPlayerId) REFERENCES players(playerId),
+                    FOREIGN KEY(gameId) REFERENCES games(gameId)
                 )
             ''')
             self.con.execute('''
@@ -166,33 +174,74 @@ class DbManager:
         with self.con:
             return bool(self.select_data(query, (playerId,))[0][0])
 
+
+    def getAllPlayersNamesInSession(self, sessionId: int) -> tuple[str, ...]:
+        """Return all player names in a given session.
+
+        :param sessionId: Session ID.
+        :return: Tuple of player names.
+        """
+        query = """
+            SELECT name
+            FROM players
+            WHERE sessionId = ?
+        """
+
+        with self.con:
+            data = self.select_data(query, (sessionId,))
+            if len(data) > 0:
+                return data
+            return data
+
+    def getAllPlayersIdsInSession(self, sessionId: int) -> tuple[str, ...]:
+        """Return all player names in a given session.
+
+        :param sessionId: Session ID.
+        :return: Tuple of player names.
+        """
+        query = """
+            SELECT playerId
+            FROM players
+            WHERE sessionId = ?
+        """
+
+        with self.con:
+            data = self.select_data(query, (sessionId,))
+            return data
+
     # WORD MANAGEMENT
-    def checkAndAddWord(self, word: str, session: int) -> bool:
+    def checkWord(self, word: str, session: int) -> bool:
         """Add word to usedWords for a session if not already present.
 
         :param word: Word to add.
         :param session: Session ID.
         :return: False if word was already used; True if added successfully.
         """
-        queryInsert = """
-            INSERT INTO usedWords (word, sessionId) VALUES (?, ?)
-        """
+        word = word.lower()
+
+
         queryCheck = """
             SELECT EXISTS(
                 SELECT 1
                 FROM usedWords
-                WHERE word = ?
+                WHERE word = ? AND sessionId = ?
             )
         """
 
         with self.con:
-            existing = self.select_data(queryCheck, (word,))
+            existing = self.select_data(queryCheck, (word, session))
             if existing[0][0]:
-                return False
+                return True
+            return False
 
+    def addWord(self, word:str, session:int):
+        queryInsert = """
+                    INSERT INTO usedWords (word, sessionId) VALUES (?, ?)
+                """
+
+        with self.con:
             self.con.execute(queryInsert, (word, session))
             self.con.commit()
-            return True
 
     # SESSION MANAGEMENT
     def deleteSession(self, sessionId: int) -> None:
@@ -270,6 +319,138 @@ class DbManager:
 
 
 
+    def getSessionIdByPlayerId(self, playerId: int) -> int:
+        query = """
+            SELECT sessionId
+            FROM players
+            WHERE playerId = ?
+        """
+        with self.con:
+            data = self.select_data(query, (playerId,))
+            if len(data) > 0:
+                return data[0][0]
+            return -1  # not found
+
+    def startSession(self, sessionId:int):
+        self.changeSessionsState(sessionId, 1)
+
+    def endSession(self, sessionId:int):
+        self.changeSessionsState(sessionId, 0)
+
+    def changeSessionsState(self, sessionId:int, state:int):
+        query = """
+            UPDATE sessions
+            SET started = ?
+            WHERE sessionId = ?
+        """
+
+        with self.con:
+            self.execute(query, (state, sessionId, ))
+
+
+    # GAMES
+    def getAllGames(self) -> tuple[str] :
+        query = """
+            SELECT name
+            FROM games
+        """
+
+        with self.con:
+            data = self.select_data(query)
+            print(data)
+            if len(data) > 0:
+                return h.unnest(tuple(data))
+            return ("No games found", )
+    
+    
+    def addGame(self, name:str):
+        query_max = "SELECT MAX(gameId) FROM games" # next possible id
+        with self.con:
+            max_id = self.select_data(query_max)[0][0]
+            if max_id is None:
+                next_id = 0
+            else:
+                next_id = max_id + 1
+            query_insert = "INSERT INTO games (gameId, name) VALUES (?, ?)"
+            self.con.execute(query_insert, (next_id, name))
+            self.con.commit()
+
+
+    def getGameIdByName(self, name: str) -> int:
+        query = """
+            SELECT gameId
+            FROM games
+            WHERE name = ?
+            LIMIT 1
+        """
+        with self.con:
+            data = self.select_data(query, (name,))
+            if len(data) > 0:
+                return data[0][0]
+            return -1  # not found
+
+    def getGameNameById(self, gameId: int) -> int:
+        query = """
+            SELECT name
+            FROM games
+            WHERE gameId = ?
+            LIMIT 1
+        """
+        with self.con:
+            data = self.select_data(query, (gameId,))
+            if len(data) > 0:
+                return data[0][0]
+            return -1  # not found
+
+    def setGameToSession(self, sessionId: int, gameId: int) -> None:
+        """Assign a game to a session.
+
+        :param sessionId: Target session ID.
+        :param gameId: Game ID to assign.
+        :return: None
+        """
+        query = """
+            UPDATE sessions
+            SET gameId = ?
+            WHERE sessionId = ?
+        """
+        with self.con:
+            self.con.execute(query, (gameId, sessionId))
+            self.con.commit()
+
+    def getGameIdBySessionId(self, sessionId:int) -> int:
+        query = """
+            SELECT gameId
+            FROM sessions
+            WHERE sessionId = ?
+            LIMIT 1
+        """
+
+        with self.con:
+            data = self.select_data(query, (sessionId,))
+            if len(data) > 0:
+                return data[0][0]
+            return -1  # not found
 
 
 
+
+
+
+
+
+    # OTHER
+    def clearAll(self) -> None:
+        """Drop all tables in the database."""
+        tables = ["usedWords", "players", "sessions", "games"]
+
+        with self.con:
+            for table in tables:
+                self.con.execute(f"DROP TABLE IF EXISTS {table}")
+            self.con.commit()
+
+
+
+if __name__=="__main__":
+    dbManager = DbManager()
+    dbManager.addGame("Mafia")

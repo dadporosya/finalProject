@@ -2,7 +2,9 @@ import telebot
 # from pygame.examples.audiocapture import callback
 from telebot import types
 from project.dbManager import DbManager
-
+from project import games
+from project import _helpers as h
+from project import mafia_game
 
 class B:  # bot
     def __init__(self, token: str, dbManager: DbManager):
@@ -18,8 +20,19 @@ class B:  # bot
         # callbacks
         self.callbackGap = '_'
         self.callbackReplaceSessionHeader = "repSes" + self.callbackGap
+        self.callGameNameHeader = "game" + self.callbackGap
 
-    def generateInlineMarkup(self, buttons: list[str], callbackHeader="", rowWidth=2):
+        self.activeGames = dict()
+
+    def checkIfSessionExists(self, message, ) -> bool:
+        exist = self.dbManager.checkIfSessionExists(message.chat.id)
+        if not exist:
+            self.bot.send_message(message.chat.id,
+                                  "You haven't created a lobby yet. Please you cmd /create in the first place.")
+
+        return exist
+
+    def generateInlineMarkup(self, buttons: tuple[str, ...], callbackHeader="", rowWidth=2):
         """Generate inline keyboard markup with callback data values.
 
         :param buttons: Button labels.
@@ -27,14 +40,14 @@ class B:  # bot
         :param rowWidth: Buttons per row.
         :return: TeleBot InlineKeyboardMarkup object.
         """
-        markup = types.ReplyKeyboardMarkup(row_width=rowWidth, resize_keyboard=True)
+        markup = types.InlineKeyboardMarkup(row_width=rowWidth)
 
         for btn in buttons:
             markup.add(types.InlineKeyboardButton(btn, callback_data=callbackHeader + btn.lower()))
 
         return markup
 
-    def generateKeyboardMarkup(self, buttons: list[str], rowWidth=2):
+    def generateKeyboardMarkup(self, buttons: tuple[str, ...], rowWidth=2):
         """Generate keyboard markup with regular reply buttons.
 
         :param buttons: Button labels.
@@ -54,10 +67,11 @@ class B:  # bot
         :param call: Callback query object.
         :return: None
         """
+        print("Callback: ", call.data)
         if call.data == self.callbackReplaceSessionHeader + "yes":
             self.replaceSession(call.message)
         elif call.data == self.callbackReplaceSessionHeader + "no":
-            pass
+            self.bot.send_message(call.message.chat.id, "okey dokey")
 
     def start(self, message):
         """Handle /start command by forwarding to registration flow if player exists.
@@ -108,7 +122,8 @@ class B:  # bot
         if exist:
             answer = "You have already been created a lobby."
             msg = self.bot.send_message(message.chat.id, answer)
-            self.bot.register_next_step_handler(msg, self.processReplaceSession)
+            self.processReplaceSession(message)
+            # self.bot.register_next_step_handler(msg, self.processReplaceSession)
         else:
             answer = "Enter lobby's name"
             msg = self.bot.send_message(message.chat.id, answer)
@@ -136,13 +151,15 @@ class B:  # bot
         self.dbManager.createSession(hostId, sessionName)
         self.bot.send_message(message.chat.id, f"Successfully created lobby {'"'+sessionName+'"'}!")
 
+        self.chooseGameForSession(message)
+
     def processReplaceSession(self, message):
         """Prompt user to confirm creating a new session when one already exists.
 
         :param message: Telegram message object.
         :return: None
         """
-        markup = self.generateInlineMarkup(["Yes", "No"], callbackHeader=self.callbackReplaceSessionHeader)
+        markup = self.generateInlineMarkup(("Yes", "No", ), callbackHeader=self.callbackReplaceSessionHeader)
         self.bot.send_message(message.chat.id, "Would you like to create a new one?", reply_markup=markup)
 
     def joinSession(self, message):
@@ -169,6 +186,89 @@ class B:  # bot
 
         self.dbManager.addPlayerToSession(message.chat.id, lobbyId)
         self.bot.send_message(message.chat.id, "Successfully added")
+
+    def showGamesList(self, message):
+        self.bot.send_message(message.chat.id, ', '.join(self.dbManager.getAllGames()))
+
+    def chooseGameForSession(self, message):
+        markup = self.generateKeyboardMarkup(self.dbManager.getAllGames())
+        msg = self.bot.send_message(message.chat.id, "Choose a game:", reply_markup=markup)
+        print("choose game")
+        self.bot.register_next_step_handler(msg, self.setGameToSession)
+
+    def setGameToSession(self, message):
+        gameId = self.dbManager.getGameIdByName(message.text)
+        if gameId == -1:
+            self.bot.send_message(message.chat.id, "Invalid game name")
+            return
+
+        exist = self.dbManager.checkIfSessionExists(message.chat.id)
+        if not exist:
+            self.bot.send_message(message.chat.id, "You haven't created a lobby yet. Please you cmd /create in the first place.")
+            return
+
+        self.dbManager.setGameToSession(message.chat.id, gameId)
+        self.bot.send_message(message.chat.id, f"You have changed game to {message.text} successfully!")
+        # self.bot.send_message(message.chat.id, "")
+
+    def showPlayers(self, message):
+        exist = self.checkIfSessionExists(message)
+        if not exist:
+            return
+
+        players = self.dbManager.getAllPlayersNamesInSession(message.chat.id)
+        if len(players) > 0:
+            self.bot.send_message(message.chat.id, h.joinNested(', ', players))
+        else:
+            self.bot.send_message(message.chat.id, "No players!")
+
+    def startGame(self, message):
+        exist = self.checkIfSessionExists(message)
+        if not exist:
+            return
+
+        gameType = self.dbManager.getGameIdBySessionId(message.chat.id)
+        if gameType == -1:
+            self.bot.send_message(message.chat.id, "You haven't chosen a game yet!")
+            self.chooseGameForSession(message)
+            return
+
+        self.dbManager.startSession(message.chat.id)
+        gameName = self.dbManager.getGameNameById(gameType)
+        print(gameName)
+        if gameName == "Cities":
+            self.activeGames[message.chat.id] = games.WordGame(self, message.chat.id)
+        elif gameName == "Mafia":
+            self.activeGames[message.chat.id] = mafia_game.MafiaGame(self, message.chat.id)
+        else:
+            self.bot.send_message(message.chat.id, "Invalid game name!")
+            return
+
+        self.activeGames[message.chat.id].start()
+
+        print("started")
+
+    def endGame(self, message):
+        exist = self.checkIfSessionExists(message)
+        if not exist:
+            return
+
+        if message.chat.id in games:
+            pass
+
+        self.dbManager.endSession(message.chat.id)
+        print("ended")
+
+    def clearDB(self, sequentialInit=True):
+        self.dbManager.clearAll()
+        if sequentialInit:
+            self.initDB()
+
+    def initDB(self):
+        self.dbManager.createTables()
+
+
+
 
 
 
