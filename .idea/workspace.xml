@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a298095a-fbd3-4350-9e2e-431d529ea17b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/project/games.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project/mafia_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/_helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/botLib.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/botLib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/db.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/db.db" beforeDir="false" afterPath="$PROJECT_DIR$/project/db.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/dbManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/dbManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/games.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/games.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/mafia_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/mafia_game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,21 +47,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python._helpers.executor": "Run",
-    "Python.blackboxcup.executor": "Run",
-    "Python.botLib.executor": "Run",
-    "Python.dbManager.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.temp (1).executor": "Run",
-    "Python.temp.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "tempBranch",
-    "last_opened_file_path": "C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python._helpers.executor&quot;: &quot;Run&quot;,
+    &quot;Python.blackboxcup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.botLib.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dbManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tempBranch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\inara\OneDrive\Documents\ilja\PycharmProjects\kodland-tele-bots\FinalProject\temp" />

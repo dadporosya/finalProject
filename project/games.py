@@ -9,16 +9,22 @@ from project import _helpers as h
 
 class Game:
     def __init__(self, bot, sessionId: int):
-        self.bot = bot
+        self.bot: botLib.B = bot
         self.sessionId = sessionId
 
         self.playersIds = h.unnest(bot.dbManager.getAllPlayersIdsInSession(sessionId))
         self.playersNames = h.unnest(bot.dbManager.getAllPlayersNamesInSession(sessionId))
 
+        self.playerCount = len(self.playersIds)
+
+        self.playersDictIdName = {}
+        for i in range(self.playerCount):
+            self.playersDictIdName[self.playersIds[i]] = self.playersNames[i]
+
         print(self.playersIds)
         print(self.playersNames)
 
-        self.playerCount = len(self.playersIds)
+
 
         self.activeInd = randint(0, self.playerCount - 1)
 
@@ -31,6 +37,8 @@ class Game:
     def showSetting(self, message):
         pass
 
+    def callback(self, call):
+        pass
 
     def doActionForUsers(self, users: tuple[int, ...], action: Callable[[int], None]) -> None:
         for user in users:

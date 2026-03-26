@@ -68,6 +68,10 @@ class B:  # bot
         :return: None
         """
         print("Callback: ", call.data)
+
+        for game in self.activeGames.values():
+            game.callback(call)
+
         if call.data == self.callbackReplaceSessionHeader + "yes":
             self.replaceSession(call.message)
         elif call.data == self.callbackReplaceSessionHeader + "no":
