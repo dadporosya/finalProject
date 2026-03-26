@@ -65,6 +65,10 @@ def showPlayers(message):
 def resetDB(message):
     bot.clearDB(True)
 
+@bot.bot.message_handler(commands=["copy"])
+def copyUser(message):
+    bot.copyPlayer(message, 5)
+
 @bot.bot.callback_query_handler(func=lambda call: True)
 def callback(call):
     """Handle callback queries from inline keyboard buttons.

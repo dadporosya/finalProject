@@ -263,6 +263,9 @@ class B:  # bot
         self.dbManager.endSession(message.chat.id)
         print("ended")
 
+    def copyPlayer(self, message, copyCount:int = 1):
+        self.dbManager.copyPlayer(message.chat.id, copyCount)
+
     def clearDB(self, sequentialInit=True):
         self.dbManager.clearAll()
         if sequentialInit:

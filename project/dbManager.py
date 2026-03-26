@@ -207,6 +207,39 @@ class DbManager:
             data = self.select_data(query, (sessionId,))
             return data
 
+
+    def copyPlayer(self, playerId: int, times: int) -> None:
+        """Copy a player N times with new IDs.
+
+        :param playerId: ID of the player to copy.
+        :param times: Number of copies to create.
+        :return: None
+        """
+        # Get original player data
+        query_get = """
+            SELECT name, sessionId
+            FROM players
+            WHERE playerId = ?
+        """
+        data = self.select_data(query_get, (playerId,))
+
+        if not data:
+            raise ValueError("Player not found")
+
+        name, sessionId = data[0]
+
+        # Prepare new players
+        new_players = []
+        for i in range(times):
+            new_players.append((playerId, name, sessionId))
+
+        # Insert copies
+        query_insert = """
+            INSERT INTO players (playerId, name, sessionId)
+            VALUES (?, ?, ?)
+        """
+        self.executemany(query_insert, tuple(new_players))
+
     # WORD MANAGEMENT
     def checkWord(self, word: str, session: int) -> bool:
         """Add word to usedWords for a session if not already present.
@@ -431,16 +464,10 @@ class DbManager:
             return -1  # not found
 
 
-
-
-
-
-
-
     # OTHER
     def clearAll(self) -> None:
         """Drop all tables in the database."""
-        tables = ["usedWords", "players", "sessions", "games"]
+        tables = ["usedWords", "players", "sessions"]
 
         with self.con:
             for table in tables:
