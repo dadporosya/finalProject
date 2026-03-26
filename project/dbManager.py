@@ -189,9 +189,7 @@ class DbManager:
 
         with self.con:
             data = self.select_data(query, (sessionId,))
-            if len(data) > 0:
-                return data
-            return data
+            return h.unnest(data)
 
     def getAllPlayersIdsInSession(self, sessionId: int) -> tuple[str, ...]:
         """Return all player names in a given session.
@@ -251,7 +249,7 @@ class DbManager:
         :return: None
         """
         tableTitles = [
-            "sessions", "players", "usedWords"
+            "sessions", "usedWords"
         ]
 
         placeholder = "*table*"

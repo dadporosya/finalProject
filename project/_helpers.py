@@ -95,3 +95,6 @@ def unnest(t:tuple):
 
 def joinNested(s:str, t:tuple) -> str:
     return s.join(unnest(t))
+
+def tupleWithout(t:tuple, arg):
+    return tuple(x for x in t if x != arg)
