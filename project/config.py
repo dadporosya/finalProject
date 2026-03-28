@@ -1,2 +1,4 @@
-TOKEN = "YOU TOKEN HERE"
+TOKEN = "YOUR TOKEN"
 DBPATH = "db.db"
+
+# commnet
