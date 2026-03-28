@@ -6,7 +6,10 @@
 ---
 
 Установка:
-Используйте git clone https://github.com/dadporosya/finalProject.git в терминале вашего IDE.
+Клонируйте репозиторий в терминале вашего IDE:
+```bash
+git clone https://github.com/dadporosya/finalProject.git
+```
 
 ## Запуск
 
