@@ -162,12 +162,15 @@ class MafiaGame(games.Game):
 
     def killPlayer(self, playerId, alertMessage=False):
         self.deadPlayers.append(playerId)
-        if alertMessage:
-            self.bot.bot.send_message(playerId, "You have been killed!")
-        try:
-            self.alivePlayers.remove(playerId)
-        except:
-            pass
+        # if alertMessage:
+        #     self.bot.bot.send_message(playerId, "You have been killed!")
+        # try:
+        #     self.alivePlayers.remove(playerId)
+        # except:
+        #     pass
+
+        self.sendForAllUsers(f"{self.playersDictIdName[playerId]} was violently murdered!")
+
 
         self.checkWinCondition()
 
@@ -451,6 +454,7 @@ class MafiaGame(games.Game):
 
     def startDayRoutine(self):
         self.clearVoting()
+        self.sendForAllUsers("It's day time buddies!")
 
         self.dayRoutineSpeeches()
 

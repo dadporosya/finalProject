@@ -15,6 +15,10 @@ class DbManager:
         self.cur = self.con.cursor()
         self.createTables()
 
+        games = self.getAllGames()
+        if "Mafia" not in games:
+            self.addGame("Mafia")
+
 
 
     def createTables(self):
@@ -611,5 +615,3 @@ class DbManager:
 if __name__ == "__main__":
     dbManager = DbManager()
 
-    dbManager.addGame("Mafia")
-    dbManager.addGame("Cities")
