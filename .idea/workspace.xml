@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a298095a-fbd3-4350-9e2e-431d529ea17b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/mafiaGame.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/mafiaGame.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +18,15 @@
     <persistenceIdMap>
       <entry key="_C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject" value="3AnjYs9xlu8PXFIgiTUePlFs6ht" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Agent" />
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="chat-panel" value="GPT-4.1" />
+      <entry key="agent-panel" value="GPT-4.1" />
+    </selectedModels>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -41,22 +52,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python._helpers.executor&quot;: &quot;Run&quot;,
-    &quot;Python.blackboxcup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.botLib.executor&quot;: &quot;Run&quot;,
-    &quot;Python.dbManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.mafia_game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.temp (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.temp.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tempBranch&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python._helpers.executor": "Run",
+    "Python.blackboxcup.executor": "Run",
+    "Python.botLib.executor": "Run",
+    "Python.dbManager.executor": "Run",
+    "Python.mafia_game.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.temp (1).executor": "Run",
+    "Python.temp.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "tempBranch",
+    "last_opened_file_path": "C:/Users/inara/OneDrive/Documents/ilja/PycharmProjects/kodland-tele-bots/finalProject",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.general.GeneralConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\inara\OneDrive\Documents\ilja\PycharmProjects\kodland-tele-bots\FinalProject\temp" />

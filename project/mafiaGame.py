@@ -190,13 +190,12 @@ class MafiaGame(games.Game):
 
         winner:int|None = None
         print("checkwin:", civilianCount, mafiaCount, alivePlayers)
-
-        if civilianCount >= alivePlayers:
+        if mafiaCount == 0:
             # civilians win
             winner = TEAM_IDS["civilian"]
-        elif mafiaCount >= alivePlayers - mafiaCount:
-            # mafia win
-            winner = TEAM_IDS["mafia"]
+        # if mafiaCount >= alivePlayers - mafiaCount:
+        #     # mafia win
+        #     winner = TEAM_IDS["mafia"]
 
         if winner is None:
             return False
