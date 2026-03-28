@@ -193,9 +193,9 @@ class MafiaGame(games.Game):
         if mafiaCount == 0:
             # civilians win
             winner = TEAM_IDS["civilian"]
-        # if mafiaCount >= alivePlayers - mafiaCount:
-        #     # mafia win
-        #     winner = TEAM_IDS["mafia"]
+        if mafiaCount >= alivePlayers - mafiaCount:
+            # mafia win
+            winner = TEAM_IDS["mafia"]
 
         if winner is None:
             return False
