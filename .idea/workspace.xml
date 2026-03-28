@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a298095a-fbd3-4350-9e2e-431d529ea17b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/botLib.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/botLib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/config.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/project/db.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/dbManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/dbManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/mafia_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/mafiaGame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/blackboxcup.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/temp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/temp.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/temp1.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
