@@ -4,7 +4,7 @@ from telebot import types
 from project.dbManager import DbManager
 from project import games
 from project import _helpers as h
-from project import mafia_game
+from project import mafiaGame
 
 class B:  # bot
     def __init__(self, token: str, dbManager: DbManager):
@@ -292,7 +292,7 @@ class B:  # bot
         if gameName == "Cities":
             self.activeGames[message.chat.id] = games.WordGame(self, message.chat.id)
         elif gameName == "Mafia":
-            self.activeGames[message.chat.id] = mafia_game.MafiaGame(self, message.chat.id)
+            self.activeGames[message.chat.id] = mafiaGame.MafiaGame(self, message.chat.id)
         else:
             self.bot.send_message(message.chat.id, "Invalid game name!")
             return
