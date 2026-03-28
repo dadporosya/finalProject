@@ -172,12 +172,21 @@ class MafiaGame(games.Game):
         self.checkWinCondition()
 
     def checkWinCondition(self) -> bool:
-        teams = self.getAllPlayersInTeams()
+        teams = self.getAllAlivePlayersInTeam()
         alivePlayers = self.playerCount - len(self.deadPlayers)
-        civilianCount = len(teams[TEAM_IDS["civilian"]])
-        mafiaCount = len(teams[TEAM_IDS["mafia"]])
+        civilianCount = 0
+        mafiaCount = 0
+        try:
+            civilianCount = len(teams[TEAM_IDS["civilian"]])
+        except:
+            pass
+        try:
+            mafiaCount = len(teams[TEAM_IDS["mafia"]])
+        except:
+            pass
 
         winner:int|None = None
+        print("checkwin:", civilianCount, mafiaCount, alivePlayers)
 
         if civilianCount >= alivePlayers:
             # civilians win
@@ -189,6 +198,7 @@ class MafiaGame(games.Game):
         if winner is None:
             return False
 
+        print(winner)
         self.win(winner)
         return True
 
@@ -253,6 +263,25 @@ class MafiaGame(games.Game):
 
             if team_id not in teams:
                 teams[team_id] = []
+
+            teams[team_id].append(player_id)
+
+        return teams
+
+    def getAllAlivePlayersInTeam(self) -> dict[int, list[int]]:
+        teams: dict[int, list[int]] = {}
+
+        for player_id, role in self.playersRoles.items():
+            if player_id in self.deadPlayers:
+                continue
+            team_id = role.teamId
+
+            if team_id is None:
+                continue  # skip roles without team
+
+            if team_id not in teams:
+                teams[team_id] = []
+
 
             teams[team_id].append(player_id)
 
