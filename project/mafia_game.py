@@ -226,6 +226,7 @@ class MafiaGame(games.Game):
         self.bot.activeGames[self.sessionId] = MafiaGame(self.bot, self.sessionId)
         del self
 
+
     def createVoting(self):
         for pid in self.playersIds:
             self.currentVoting[pid] = 0
