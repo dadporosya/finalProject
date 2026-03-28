@@ -3,7 +3,7 @@ from project import config
 from project.dbManager import DbManager
 import telebot
 
-dbManager = DbManager(config.DBPATH)
+dbManager = DbManager(config.DB_PATH)
 bot = botLib.B(config.TOKEN, dbManager)
 
 @bot.bot.message_handler(commands=["start"])

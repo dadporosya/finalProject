@@ -13,13 +13,15 @@ requires-poetry = "2.3.2"
 python = "3.13.12"
 #
 telebot = "0.0.5"
+pydantic = "2.12.5"
+pydantic-settings = "2.13.1"
 
 
 
 [dependency-groups]
 dev = [
     "pylint (==4.0.5)",
-    "ruff (>=0.15.7,<0.16.0)",
+    "ruff (==0.15.7)",
     "mypy (==1.19.1)",
 ]
 
