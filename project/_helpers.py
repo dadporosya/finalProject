@@ -2,7 +2,6 @@ import tomllib
 
 BASE_PATH = r"C:\Users\inara\OneDrive\Documents\ilja\PycharmProjects\kodland-tele-bots\finalProject\\"
 
-
 def toml_to_dict(toml_string: str) -> dict:
     """Parse TOML content and return a dictionary.
 
@@ -10,8 +9,6 @@ def toml_to_dict(toml_string: str) -> dict:
     :return: A Python dictionary representation of the TOML content.
     """
     return tomllib.loads(toml_string)
-
-
 def toml_file_to_dict(file_path: str) -> dict:
     """Read a TOML file and return its contents as a dictionary.
 
@@ -21,8 +18,6 @@ def toml_file_to_dict(file_path: str) -> dict:
     new_path = BASE_PATH + file_path
     with open(new_path, "rb") as f:
         return tomllib.load(f)
-
-
 def dict_to_toml(data: dict, path="") -> str:
     """Serialize a Python dictionary to a TOML string.
 
@@ -60,8 +55,6 @@ def dict_to_toml(data: dict, path="") -> str:
             f.write(result)
 
     return result
-
-
 def format_value(value):
     """Marshal basic Python values into TOML literal syntax.
 
@@ -81,6 +74,7 @@ def format_value(value):
 
     raise TypeError(f"Unsupported type: {type(value)}")
 
+
 def unnestRecursion(l:list, t:tuple) -> list:
     for e in t:
         if type(e) in [tuple, list, set]:
@@ -90,11 +84,25 @@ def unnestRecursion(l:list, t:tuple) -> list:
 
     return l
 
-def unnest(t:tuple):
+def unnest(t:tuple|list):
+    if type(t) != tuple:
+        t = tuple(t)
     return unnestRecursion([], t)
 
 def joinNested(s:str, t:tuple) -> str:
     return s.join(unnest(t))
 
-def tupleWithout(t:tuple, arg):
-    return tuple(x for x in t if x != arg)
+def tupleWithout(t:tuple, args:tuple):
+    return tuple(x for x in t if x not in args)
+
+def maxFromDict(d:dict):
+    if not d:
+            return []
+    max_votes = max(d.values())
+    result = [k for k, v in d.items() if v == max_votes]
+    return result
+
+def getKey(d:dict, value):
+    for k, v in d.items():
+        if v == value:
+            return k

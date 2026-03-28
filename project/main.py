@@ -13,7 +13,13 @@ def start(message):
     :param message: Telegram message object.
     :return: None
     """
+    bot.showCmds(message)
     bot.registration(message)
+
+
+@bot.bot.message_handler(commands=["info"])
+def info(message):
+    bot.showCmds(message)
 
 
 @bot.bot.message_handler(commands=["register"])
@@ -51,11 +57,15 @@ def startGame(message):
 
 @bot.bot.message_handler(commands=["endGame"])
 def endGame(message):
-    bot.endGame(message)
+    bot.callEndGameWithMessage(message)
 
 @bot.bot.message_handler(commands=["games"])
 def showGamesList(message):
     bot.showGamesList(message)
+
+@bot.bot.message_handler(commands=["show"])
+def showSessionInfo(message):
+    bot.showSessionInfo(message)
 
 @bot.bot.message_handler(commands=["showPlayers"])
 def showPlayers(message):
@@ -63,7 +73,11 @@ def showPlayers(message):
 
 @bot.bot.message_handler(commands=["resetDB"])
 def resetDB(message):
-    bot.clearDB(True)
+    bot.clearDB(message, True)
+
+@bot.bot.message_handler(commands=["deleteLobby"])
+def deleteLobby(message):
+    bot.deleteSessionByMessage(message)
 
 @bot.bot.callback_query_handler(func=lambda call: True)
 def callback(call):

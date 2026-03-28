@@ -1,8 +1,6 @@
 from random import randint
 from typing import Callable
 
-from pyexpat.errors import messages
-
 from project import botLib
 from project import dbManager
 from project import _helpers as h
@@ -12,7 +10,7 @@ class Game:
         self.bot: botLib.B = bot
         self.sessionId = sessionId
 
-        self.playersIds = h.unnest(bot.dbManager.getAllPlayersIdsInSession(sessionId))
+        self.playersIds = h.unnest(bot.dbManager.getAllPlayersChatIdsInSession(sessionId))
         self.playersNames = h.unnest(bot.dbManager.getAllPlayersNamesInSession(sessionId))
 
         self.playerCount = len(self.playersIds)
@@ -34,7 +32,7 @@ class Game:
     def end(self):
         pass
 
-    def showSetting(self, message):
+    def showSettings(self, message):
         pass
 
     def callback(self, call):
@@ -47,6 +45,16 @@ class Game:
     def doActionForAllUsers(self, action : Callable[[int], None]) -> None:
         self.doActionForUsers(self.playersIds, action)
 
+    def sendForUsers(self, users:tuple[int, ...], text:str):
+        def sendMessage(recipientId:int):
+            self.bot.bot.send_message(recipientId, text)
+        self.doActionForUsers(users, sendMessage)
+
+    def sendForAllUsers(self, text:str=""):
+        def sendMessage(recipientId:int):
+            self.bot.bot.send_message(recipientId, text)
+        self.doActionForAllUsers(sendMessage)
+
 
 class WordGame(Game):
     def __init__(self, bot, sessionId: int):
@@ -56,7 +64,7 @@ class WordGame(Game):
 
         self.maxMistakesCount = 3
 
-    def showSetting(self, message):
+    def showSettings(self, message):
         text = f"""
             Settings:\n
             Max Mistakes Count: {self.maxMistakesCount}
